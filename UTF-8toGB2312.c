@@ -41,9 +41,9 @@ u16 SearchCodeTable(u16 unicodeKey)
     return 0;
 }
 
-u16 Utf8ToGb2312(const char* utf8, int len)
+void Utf8ToGb2312(const char* utf8, int len,u16* gbArray)
 {
-		int k;
+		int k=0;
  
        int byteCount = 0;
        int i = 0;
@@ -78,7 +78,8 @@ u16 Utf8ToGb2312(const char* utf8, int len)
 
                   //根据这个值查表取得对应的GB2312的值
                 gbKey = SearchCodeTable(unicodeKey);
-                
+                //printf("gbKey=0x%X\n",gbKey);
+                gbArray[k++]=gbKey;
                 byteCount = 3;
           break;
 
@@ -107,15 +108,19 @@ u16 Utf8ToGb2312(const char* utf8, int len)
         }
   
        }
-       return gbKey;
+       //return gbKey;
 } 
 
 int main()
 {
-	unsigned char str[]="啊";
-	int num= strlen(str);
-	u16 gbKey;
-	gbKey=Utf8ToGb2312(str,num);
-	printf("啊的通行编码：%X\n",gbKey);
+	int i,n;
+	unsigned char str[]="世界你好";
+	int num=strlen(str);
+	n=num/3;
+	u16 gbArray[n];
+	Utf8ToGb2312(str,num,gbArray);
+	for(i=0;i<n;i++){
+		printf("%c%c%c：0x%X\n",str[3*i],str[3*i+1],str[3*i+2],gbArray[i]);
+	}
 	return 0;	
 }
