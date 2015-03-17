@@ -3,7 +3,7 @@
 
 思路是UTF-8->Unicode->GB2312
 
-包含了Unicode->GB2312的字符表
+cp936.h是Unicode->GB2312的字符表
 
 void Utf8ToGb2312(const char* utf8, int len,u16* gbArray);
 
